@@ -1,5 +1,6 @@
 ---
 title: "Model output"
+output: pdf_document
 ---
 
 
