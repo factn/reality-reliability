@@ -1,6 +1,6 @@
 all: index.html
 
-index.html: index.Rmd
+index.html: index.Rmd models.rds
 	R -e "rmarkdown::render('index.Rmd')"
 
 
