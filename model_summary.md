@@ -23,7 +23,8 @@ In the general case all claims are independent but for specific domains we can b
 *World model*
 
 A 'world model' says that claims made about a given thing will be related according to some model. 
-''latex for all a (i, _) <-> (j, _)
+''latex for all i (i, a) <-> (i, b) and 
+'' and (i, a) <-> (j, b) regardless of a and b
 
 For example, if we index weather gauge measurements by (lat, long, time) the model would state that measurements would be correlated in time and space. A simple 'world model' for this case would simply state that correlation is expected to be higher the closer the index. More complex 'world models' may take into account global weather and be able to spot measurements that are inconsistent with a pattern from other gauges.
 
@@ -31,11 +32,16 @@ Furthermore if we assume that the validity and bias of claims made by a given ag
 
 *Agent model*
 
-An 'agent model' says that claims from the same agent may be related according to some model, or that agents will tend to fall into classes of agent. 
+An 'agent model' constrains from the same agent or related agents.
+''latex for all agents a, (i, a) <-> (j, a)
 
+ For example, we might assume that in a given domain an agent has a latent bias and variance across all claims by that agent are drawn. In *this paper* an assumption is made that agents come from a given class, and that the accuracy and precision of the agent is the same for all claims coming from the same class of agent. 
 
+*Value model*
 
-<as demonstrated here>
+A 'value model' or is it a measurement model, lets us.. uhm what? Eek. 
+''' latex for all a, i, (i,a) <-> (i,a) ?
+
 
 Given this, if we have a stream of claims coming from all agents we can, in a principled way, estimate the validity of each new claim (given prior performance and consistency with existing claims).
 
