@@ -35,15 +35,16 @@ Furthermore if we assume that the validity and bias of claims made by a given ag
 An 'agent model' constrains from the same agent or related agents.
 ''latex for all agents a, (i, a) <-> (j, a)
 
- For example, we might assume that in a given domain an agent has a latent bias and variance across all claims by that agent are drawn. In *this paper* an assumption is made that agents come from a given class, and that the accuracy and precision of the agent is the same for all claims coming from the same class of agent. 
+For example, we might assume that in a given domain an agent has a latent bias and variance across all claims by that agent are drawn. As another example, in the this paper [1](https://icml.cc/2012/papers/597.pdf) they assume that agents come from a class, and that the precision of each agent on a test is constrained by the class of that agent. 
 
 *Value model*
 
 A 'value model' or is it a measurement model, lets us.. uhm what? Eek. 
 ''' latex for all a, i, (i,a) <-> (i,a) ?
 
+As an example we assume that some questions are harder than others, and thus the accuracy of answers to the test for those questions is less than for other questions.
 
-Given this, if we have a stream of claims coming from all agents we can, in a principled way, estimate the validity of each new claim (given prior performance and consistency with existing claims).
+When we provide these three inputs to our model we can then use bayesian modeling, to predict the agent reliability as well as to estimate the reality in a principled way from multiple cases. 
 
 Furthermore, we can measure the likelihood of each new claim. In a realtime scenario a suprising claim from a reliable source would have a low likelihood and should therefore be flagged as important. (Suprising claims from unreliable sources would have reasonable likelihood and are therefore not important).
 
