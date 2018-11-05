@@ -44,7 +44,7 @@ The measurement model describes how the world is represented inside the model. I
 
 --
 
-When the domain is constrained, it is possible to infer information about the world, and about the agents. In particular, external validation (such as calibration measurements, or example answers, may not be required). In a simple case, Bayesian modeling can be used to infer both the agent reliability and the claim accuracy in a principled way from observed data.
+When the domain is constrained, it is possible to infer information about the world, and about the agents. In particular, external validation (such as calibration measurements, or example answers) may not be required. In a simple case, Bayesian modeling can be used to infer both the agent reliability and the claim accuracy in a principled way from observed data.
 
 Furthermore, we can measure the log likelihood of a claim as a proxy for the 'importance' of that message. For instance, given an agent, world, and measurement model, an otherwise surprising claim from a reliable source has a low likelihood and therefore should be considered 'important'. By  contrast, surprising claims (per the world model) from unreliable sources have a higher likelihood and can therefore be considered to contain fewer bits of information and be less important.
 
