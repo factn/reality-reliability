@@ -1,30 +1,32 @@
-We consider problems involving a collection of agents making various claims where we want to infer both the accuracy of those claims as well as the reliability of the agents.
+We consider problems involving a collection of agents making claims where we want to infer both the accuracy of those claims as well as the reliability of the agents. We also wish to flag the claims containing the most bits of information so they can be processed first.
 
-Each claim carries three parts:
+Getting reliable and/or useful information from a network of (potentially) unreliable agents is a problem with applications in crowdsourcing, collective intelligence, loan allocation, disaster response and intelligence, targeting of aid, and many other areas.
+
+We consider a collection of agents A = {ai} and a set of claims C = { (a,i,x) } where each claim has three parts:
  - an index, i (what the claim is about)
- - a signature, a (which agent makes this claim)
+ - a signature, a (fom the agent which makes this claim)
  - a value, x (the numeric, or categorical, measurement)
+
+Examples of claims might be :
+- That the barometric pressure at location/time, i, is x, as measured by weather gauge, a
+- That agent a will not default on a specified loan, i, as claimed (promised) by agent a
+- That agent a has a probability of default x on a specified loan i, as measured by another agent b
+- That the bridge at location i is 'at risk' of overtopping, x, as observed by agent a 
+- That a student (agent) a, gives the answer x, to the question i on the test
+- That a claim made by agent b, is consistent with other information held by agent a, who estimates it to be a valid claim with probability x
+
+In the general case claims are independent but for specific domains we can build models to constrain the domain in various ways.
+
+A 'world model' says that claims made about a given thing will be related according to some model. 
+''latex for all i (i, a) <-> (i, b) and 
+'' and (i, a) <-> (j, b) regardless of a and b
+
  
 <math>
 <img src="https://latex.codecogs.com/gif.latex?E=mc^2" />
  
 <img src="https://latex.codecogs.com/gif.latex?x%20%3D%20a_0%20&plus;%20%5Cfrac%7B1%7D%7Ba_1%20&plus;%20%5Cfrac%7B1%7D%7Ba_2%20&plus;%20%5Cfrac%7B1%7D%7Ba_3%20&plus;%20a_4%7D%7D%7D" />
 
-Examples of claims might be :
-- That the barometric pressure at location/time, i, is x, as measured by weather gauge, a
-- That agent a will not default on a specified loan, i, as claimed (promised) by agent a
-- That agent a has a probability of default x on a specified loan i, as measured by agent b
-- That the bridge at location i is about to be washed away, as claimed by agent a 
-- That the claim by agent a, regarding the bridge at location i, is consistent with other information held privately by agent b, and that agent b estimates it as likely to be valid with probability x
-- That student (agent) a, gives the answer x, to question i on the test
-
-In the general case all claims are independent but for specific domains we can build models that constrain the degrees of freedom in various ways. 
-
-*World model*
-
-A 'world model' says that claims made about a given thing will be related according to some model. 
-''latex for all i (i, a) <-> (i, b) and 
-'' and (i, a) <-> (j, b) regardless of a and b
 
 For example, if we index weather gauge measurements by (lat, long, time) the model would state that measurements would be correlated in time and space. A simple 'world model' for this case would simply state that correlation is expected to be higher the closer the index. More complex 'world models' may take into account global weather and be able to spot measurements that are inconsistent with a pattern from other gauges.
 
