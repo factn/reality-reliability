@@ -1,8 +1,6 @@
-We consider problems involving a collection of agents making claims where we want to infer both the accuracy of those claims as well as the reliability of the agents. We also wish to flag the claims containing the most bits of information so they can be processed first.
+We consider problems involving a collection of agents making claims where we want to jointly infer the accuracy of those claims as well as the reliability of the agents. 
 
-
-
-Getting reliable and/or useful information from a network of (potentially) unreliable agents is a problem with applications in crowdsourcing, collective intelligence, loan allocation, disaster response and intelligence, targeting of aid, and many other areas.
+Getting reliable information from a network of (potentially) unreliable agents is a problem with applications in crowdsourcing, collective intelligence, loan allocation, disaster response and intelligence, targeting of aid, and many other areas. In some of these contexts it also useful to be able to flag, in a principled ways, the claims containing the most bits of useful information so that they can be processed first.
 
 We consider a collection of agents <a href="http://mathurl.com/ybr85kd7"><img src="http://mathurl.com/ybr85kd7.png" /></a> and a set of claims <a href="http://mathurl.com/ybccx4nt"><img src="http://mathurl.com/ybccx4nt.png"></a>. Each claim has three parts:
  - an index, i (what the claim is about)
@@ -16,17 +14,12 @@ Examples of claims might be :
 - That the bridge at location i is 'at risk of overtopping', as observed by agent a 
 - That in general, claims made by agent b, being generally consistent with other information held by agent a, have an average validity x
 
-To create a general model, we will define a property, validity <a href="http://mathurl.com/yd86scj5"><img src="http://mathurl.com/yd86scj5.png"></a> across a wide range of claim types:
-- Claims about an objective, measurable reality 
-- Promises or commitments (to be undertaken in the future)
-- Claims about validity of other claims
-- Claims about subjective reality 
-
-For instance, in the first case (measurable reality) we might consider validity to be the probability that an 'objective measurement' made at index i, will return the same value x as in the claim.
-
+We define a property of claims called **validity** where <a href="http://mathurl.com/yd86scj5"><img src="http://mathurl.com/yd86scj5.png"></a>. In the case of claims about measurable reality we define this to be the probability that an 'objective measurement' made at index i will return (or would have returned) the same value, x as in the claim. As we shall see, it is not always necessary to directly measure v in order to be able to usefully reason with it as we can sometimes infer it's value from data [1]
 <a href="http://mathurl.com/y7prd9y9"><img src="http://mathurl.com/y7prd9y9.png"></a>
 
-In the general case claims are independent but for specific domains we can build models to constrain the domain in various ways.
+In the general case claims are independent and such inference is impossible, but for specific domains where we can build (or assume) models that constrain the degrees of freedom, some useful inference is possible. 
+
+We 
 
 A 'world model' says that claims made about a given thing will be related according to some model. 
 ''latex for all i (i, a) <-> (i, b) and 
@@ -62,3 +55,10 @@ When we provide these three inputs to our model we can then use bayesian modelin
 Furthermore, we can measure the likelihood of each new claim. In a realtime scenario a suprising claim from a reliable source would have a low likelihood and should therefore be flagged as important. (Suprising claims from unreliable sources would have reasonable likelihood and are therefore not important).
 
 <a href="https://creately.com/diagram/jo3gw9302/eyvMFJw8XXJiDfHzUILp2upUQg%3D"><img src="estimated_model.png" /></a>
+
+[1] In general we would want to define a 'validity' measure across a wide range of claim types:
+- Claims about an objective, measurable reality 
+- Promises or commitments (to be undertaken in the future)
+- Claims about validity of other claims
+- Claims about subjective reality 
+
