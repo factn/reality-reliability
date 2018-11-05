@@ -35,7 +35,7 @@ Furthermore if we assume that the validity and bias of claims made by a given ag
 An 'agent model' constrains from the same agent or related agents.
 ''latex for all agents a, (i, a) <-> (j, a)
 
-For example, we might assume that in a given domain an agent has a latent bias and variance across all claims by that agent are drawn. As another example, in the this paper [1](https://icml.cc/2012/papers/597.pdf) they assume that agents come from a class, and that the precision of each agent on a test is constrained by the class of that agent. 
+For example, we might assume that in a given domain an agent has a latent bias and variance across all claims by that agent are drawn. As another example, in the paper from Bachrach, Yoram, et al. ["How to grade a test without knowing the answers---a Bayesian graphical model for adaptive crowdsourcing and aptitude testing." (2012)](https://icml.cc/2012/papers/597.pdf) they assume that agents come from a class, and that the precision of each agent on a test is constrained by the class of that agent. 
 
 *Value model*
 
