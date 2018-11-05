@@ -87,11 +87,4 @@ We also wish to explore how resistant such a network would be to 'rogue' agents 
 - Validity = objective truth 
 
 
-### Appendix 
-
-In general we would want to define a 'validity' measure across a wide range of claim types:
-- Claims about an objective, measurable reality 
-- Promises or commitments (to be undertaken in the future)
-- Claims about validity of other claims
-- Claims about subjective reality 
 
