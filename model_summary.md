@@ -1,4 +1,4 @@
-## Agents and claims
+### Agents and claims
 
 We consider problems involving a collection of agents making claims where we want to jointly infer the **accuracy** of those claims as well as the **reliability** of the agents. 
 
@@ -22,7 +22,7 @@ We also define a property of claims _*validity*_, v, where <a href="http://mathu
 
 <a href="http://mathurl.com/y7prd9y9"><img src="http://mathurl.com/y7prd9y9.png"></a>
 
-## World model, agent model, measurement model 
+### World model, agent model, measurement model 
 
 In the general case, claims are independent and such inference, as described above, is impossible. However, for specific domains where we can build (or assume) models that constrain the degrees of freedom, some useful inference is possible. Such constraints generally fall into three areas:
 - *world model*
@@ -47,7 +47,7 @@ In general we hope that given a stream of messages and appropriate world, agent 
 
 <a href="https://creately.com/diagram/jo3gw9302/eyvMFJw8XXJiDfHzUILp2upUQg%3D"><img src="estimated_model.png" /></a>
 
-## Networks of agents (channeled communication)
+### Networks of agents (channeled communication)
 
 So far, we have assumed a 'god view' where we have access to all claims from all agents. 
 
@@ -55,7 +55,7 @@ In practice however we may only be connected to a limited number of agents. Ther
 
 We also wish to explore how resistant such a network is to 'rogue' agents who, whether through malice or incompetance, tend to emit claims of low validity, and how we can refine the agent and world models to make the overall network more resistant to such attacks.
 
-## Some example domains (TBC)
+### Some example domains (TBC)
 
 **The waggle dance**
 
@@ -78,6 +78,7 @@ We also wish to explore how resistant such a network is to 'rogue' agents who, w
 - ...
 
 
+### Appendix 
 
 [1] In general we would want to define a 'validity' measure across a wide range of claim types:
 - Claims about an objective, measurable reality 
