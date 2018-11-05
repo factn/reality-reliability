@@ -15,7 +15,7 @@ Examples of claims :
 - That the barometric pressure at index i, (latitude, longitude, time), has value, x, as measured by the given weather gauge, a
 - That an agent will not default on a specified loan, i, as claimed (promised) by that agent, a
 - That an agent, b, has a probability of default, x, on a specified loan i, as estimated by another agent, a
-- That the bridge at location i is 'at risk of overtopping', as observed by agent a 
+- That the bridge at location i is 'at risk of over topping', as observed by agent a 
 - That in a claim made by an agent b, being generally consistent with other valid information held by agent a, has a validity, x as estimated by that agent
 
 We also aim to ascribe a property _*validity*_ to all claims, where <a href="http://mathurl.com/yd86scj5"><img src="http://mathurl.com/yd86scj5.png"></a>. In the case of claims about measurable reality we define this as the probability that an 'objective measurement' made at index i will return (or would have returned) the same value, x as in the claim. 
@@ -32,7 +32,7 @@ In the general case, claims are independent and the inference as described above
 - *agent model*
 - *measurement model*
 
-A **world model** is domain specific and describes how claims made at one index relate to claims made at another index. For example, if  weather gauge measurements are indexed by <latitude, longitude, time> a simple world model might note that nearby measurements tend to be similar. A more complex world model might take into account weather patterns and their tendency to move across space and time in various ways. Whether complex or simple, the world model can be used to spot measurements at one gauge that are inconsistent with the bulk of data from other 'nearby' gauges. These inconsistent measurements are said to be 'suprising'.
+A **world model** is domain specific and describes how claims made at one index relate to claims made at another index. For example, if  weather gauge measurements are indexed by <latitude, longitude, time> a simple world model might note that nearby measurements tend to be similar. A more complex world model might take into account weather patterns and their tendency to move across space and time in various ways. Whether complex or simple, the world model can be used to spot measurements at one gauge that are inconsistent with the bulk of data from other 'nearby' gauges. These inconsistent measurements are said to be 'surprising'.
 
 An **agent model** describes how the claims made by one agent relate to claims made by other agents. 
 
@@ -40,13 +40,13 @@ For example in [Bachrach, Yoram, et al. "How to grade a test without knowing the
 
 A **measurement model** describes how the measurement, x, for a given agent given a particular index is distributed. 
 
-The measurement model describes how the world is represented inside the model. In the simplest case, such as a rain gauge, the measurement model is the accuracy and precision with which rainful is  measured. In the waggle dance carried out by bees, if the world is the distribuition of flowers and the time of day, the measurement model described how that relates to the waggle dance. 
+The measurement model describes how the world is represented inside the model. In the simplest case, such as a rain gauge, the measurement model is the accuracy and precision with which rainfall is  measured. In the waggle dance carried out by bees, if the world is the distribution of flowers and the time of day, the measurement model described how that relates to the waggle dance. 
 
 --
 
 When the domain is constrained, it is possible to infer information about the world, and about the agents. In particular, external validation (such as calibration measurements, or example answers, may not be required). In a simple case, Bayesian modeling can be used to infer both the agent reliability and the claim accuracy in a principled way from observed data.
 
-Furthermore, we can measure the log likelihood of a claim as a proxy for the 'importance' of that message. For instance, given aan agent, world, and measurement model, an otherwise suprising claim from a reliable source has a low likelihood and therefore should be considered 'important'. By  contrast, suprising claims (per the world model) from unreliable sources have a higher likelihood and can therefore be considered to contain fewer bits of information and be less important.
+Furthermore, we can measure the log likelihood of a claim as a proxy for the 'importance' of that message. For instance, given an agent, world, and measurement model, an otherwise surprising claim from a reliable source has a low likelihood and therefore should be considered 'important'. By  contrast, surprising claims (per the world model) from unreliable sources have a higher likelihood and can therefore be considered to contain fewer bits of information and be less important.
 
 We hope to build a general model that, given a stream of messages as well as an appropriate world, agent and measurement models can provide the following outputs in a general way.
 
@@ -56,11 +56,11 @@ We hope to build a general model that, given a stream of messages as well as an 
 
 So far, we have assumed a 'god view' where we have access to all claims from all agents. In practice, however, we may only be connected to a limited number of agents. 
 
-For various reasons we believe it may be useful to consider a network of agents where every agent is performing these kind of evaluations on the messages received from other agents and then preferentialy emitting what they consider to be important, valid messages. Each agent may also be initiating measurements or claims. In such a case we can consider the entropy of the system as a whole.
+For various reasons we believe it may be useful to consider a network of agents where every agent is performing these kind of evaluations on the messages received from other agents and then preferentially emitting what they consider to be important, valid messages. Each agent may also be initiating measurements or claims. In such a case we can consider the entropy of the system as a whole.
 
 Early investigations suggest that when the 'reality' is held fixed, the messages sent by the network of agents eventually settles to a low-entropy equilibrium with low activity, but jumps to a high activity as soon as the underlying reality changes and measurements become low likelihood.
 
-We also wish to explore how resistant such a network would be to 'rogue' agents who, whether through malice or incompetance, tend to emit claims of low validity, and how we can refine the agent and world models to make the overall network more resistant to such attacks.
+We also wish to explore how resistant such a network would be to 'rogue' agents who, whether through malice or incompetence, tend to emit claims of low validity, and how we can refine the agent and world models to make the overall network more resistant to such attacks.
 
 ### Some example domains 
 
@@ -82,7 +82,7 @@ We also wish to explore how resistant such a network would be to 'rogue' agents 
 - Agents can say they attended a meeting or that they didn't
 - Other agents can confirm those claims  
 - World model = meeting attendance claims should be consistent in that agents can accurately confirm another's attendance at a meeting if they were in attendance themselves
-- Measurement model = exchange of keys provides verifable truth, lowers expected variance in such case
+- Measurement model = exchange of keys provides verifiable truth, lowers expected variance in such case
 - Agent model = agents should be 100% correct on their own attendance or be considered untrustworthy
 - Validity = objective truth 
 
