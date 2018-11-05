@@ -4,23 +4,26 @@ We consider problems involving a collection of agents making claims where we wan
 
 Getting reliable information from a network of (potentially) unreliable agents is a problem with applications in crowdsourcing, collective intelligence, loan allocation, disaster response and intelligence, targeting of aid, and many other areas. 
 
-In some of these contexts it also useful to be able to estimate, in a principled ways, the number of bits of useful information contained in a message so that the most **important** claims can be processed first.
+In some of these contexts it also useful to be able to estimate, in a principled way, the number of bits of useful information contained in a message so that the most **important** claims can be processed first.
 
 We consider a collection of agents <a href="http://mathurl.com/ybr85kd7"><img src="http://mathurl.com/ybr85kd7.png" /></a> and a set of claims <a href="http://mathurl.com/ybccx4nt"><img src="http://mathurl.com/ybccx4nt.png"></a>. Each claim has three parts:
  - an _*index*_, i (what the claim is about)
- - a _*signature*_, a (fom the agent which makes this claim)
- - a _*value*_, x (the numeric, or categorical, measurement)
+ - a _*signature*_, a (the agent which makes this claim)
+ - a _*value*_, x (a numeric, or categorical, measurement)
 
-Examples of claims might be :
-- That the barometric pressure at (lat, lng, time) index i, has value, x, as measured by the weather gauge, a
+Examples of claims :
+- That the barometric pressure at index i, (lat, lng, time), has value, x, as measured by the given weather gauge, a
 - That an agent will not default on a specified loan, i, as claimed (promised) by that agent, a
-- That an agent b has a probability of default, x, on a specified loan i, as estimated by another agent, a
+- That an agent, b, has a probability of default, x, on a specified loan i, as estimated by another agent, a
 - That the bridge at location i is 'at risk of overtopping', as observed by agent a 
-- That in general, claims made by agent b, being generally consistent with other information held by agent a, have an average validity x
+- That in a claim made by an agent b, being generally consistent with other valid information held by agent a, has a validity, x as estimated by that agent
 
-We also define a property of claims _*validity*_, v, where <a href="http://mathurl.com/yd86scj5"><img src="http://mathurl.com/yd86scj5.png"></a>. In the case of claims about measurable reality we define this to be the probability that an 'objective measurement' made at index i will return (or would have returned) the same value, x as in the claim. As we shall see, it is not always necessary to directly measure v in order to be able to usefully reason with it as we can sometimes infer it's value from data [1]
+We also aim to ascribe a property _*validity*_ to all claims, where <a href="http://mathurl.com/yd86scj5"><img src="http://mathurl.com/yd86scj5.png"></a>. In the case of claims about measurable reality we define this as the probability that an 'objective measurement' made at index i will return (or would have returned) the same value, x as in the claim. 
 
 <a href="http://mathurl.com/y7prd9y9"><img src="http://mathurl.com/y7prd9y9.png"></a>
+
+As we shall see, it is not always necessary to directly measure v in order to be able to usefully reason with it, as we can sometimes infer it's value from data.
+
 
 ### World model, agent model, measurement model 
 
