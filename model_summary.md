@@ -69,20 +69,24 @@ We also wish to explore how resistant such a network would be to 'rogue' agents 
 - Agent model = bees are trustworthy
 - World model = flowers have pollen at specific locations
 - Measurement model = the waggle dance is used to communicate where the pollen is at
+- Validity = bees getting pollen
 
 **Self grading test / crowd sourcing generally**
 
 - Agent model = student aptitude
-- World model = null (no correlation between questions)
+- World model = no correlation between questions
 - Measurement model = some questions are harder than others
+- Validity = answer is correct 
 
 **Claims about claims**
 
-- Agent a says they attended meeting
-- Agent b confirms what agent a says 
-- World model - agents can't confirm a meeting attendance if they were not there themselves
-- ...
-- ...
+For instance 
+- Agents can say they attended a meeting or that they didn't
+- Other agents can confirm those claims  
+- World model = meeting attendance claims should be consistent in that agents can accurately confirm another's attendance at a meeting if they were in attendance themselves
+- Measurement model = exchange of keys provides verifable truth, lowers expected variance in such case
+- Agent model = agents should be 100% correct on their own attendance or be considered untrustworthy
+- Validity = objective truth 
 
 
 ### Appendix 
