@@ -1,8 +1,10 @@
 We consider problems involving a collection of agents making claims where we want to infer both the accuracy of those claims as well as the reliability of the agents. We also wish to flag the claims containing the most bits of information so they can be processed first.
 
+
+
 Getting reliable and/or useful information from a network of (potentially) unreliable agents is a problem with applications in crowdsourcing, collective intelligence, loan allocation, disaster response and intelligence, targeting of aid, and many other areas.
 
-We consider a collection of agents A = {ai} and a set of claims C = { (a,i,x) } where each claim has three parts:
+We consider a collection of agents <a href="http://mathurl.com/ybr85kd7"><img src="http://mathurl.com/ybr85kd7.png" /></a> and a set of claims <a href="http://mathurl.com/yd2xf6sr"><img src="http://mathurl.com/yd2xf6sr.png"></a> where each claim has three parts:
  - an index, i (what the claim is about)
  - a signature, a (fom the agent which makes this claim)
  - a value, x (the numeric, or categorical, measurement)
