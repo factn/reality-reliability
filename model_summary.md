@@ -4,18 +4,27 @@ We consider problems involving a collection of agents making claims where we wan
 
 Getting reliable and/or useful information from a network of (potentially) unreliable agents is a problem with applications in crowdsourcing, collective intelligence, loan allocation, disaster response and intelligence, targeting of aid, and many other areas.
 
-We consider a collection of agents <a href="http://mathurl.com/ybr85kd7"><img src="http://mathurl.com/ybr85kd7.png" /></a> and a set of claims <a href="http://mathurl.com/yd2xf6sr"><img src="http://mathurl.com/yd2xf6sr.png"></a> where each claim has three parts:
+We consider a collection of agents <a href="http://mathurl.com/ybr85kd7"><img src="http://mathurl.com/ybr85kd7.png" /></a> and a set of claims <a href="http://mathurl.com/ybccx4nt"><img src="http://mathurl.com/ybccx4nt.png"></a>. Each claim has three parts:
  - an index, i (what the claim is about)
  - a signature, a (fom the agent which makes this claim)
  - a value, x (the numeric, or categorical, measurement)
 
 Examples of claims might be :
-- That the barometric pressure at location/time, i, is x, as measured by weather gauge, a
-- That agent a will not default on a specified loan, i, as claimed (promised) by agent a
-- That agent a has a probability of default x on a specified loan i, as measured by another agent b
-- That the bridge at location i is 'at risk' of overtopping, x, as observed by agent a 
-- That a student (agent) a, gives the answer x, to the question i on the test
-- That a claim made by agent b, is consistent with other information held by agent a, who estimates it to be a valid claim with probability x
+- That the barometric pressure at (lat, lng, time) index i, has value, x, as measured by the weather gauge, a
+- That an agent will not default on a specified loan, i, as claimed (promised) by that agent, a
+- That an agent b has a probability of default, x, on a specified loan i, as estimated by another agent, a
+- That the bridge at location i is 'at risk of overtopping', as observed by agent a 
+- That in general, claims made by agent b, being generally consistent with other information held by agent a, have an average validity x
+
+To create a general model, we will define a property, validity <a href="http://mathurl.com/yd86scj5"><img src="http://mathurl.com/yd86scj5.png"></a> across a wide range of claim types:
+- Claims about an objective, measurable reality 
+- Promises or commitments (to be undertaken in the future)
+- Claims about validity of other claims
+- Claims about subjective reality 
+
+For instance, in the first case (measurable reality) we might consider validity to be the probability that an 'objective measurement' made at index i, will return the same value x as in the claim.
+
+<a href="http://mathurl.com/y7prd9y9"><img src="http://mathurl.com/y7prd9y9.png"></a>
 
 In the general case claims are independent but for specific domains we can build models to constrain the domain in various ways.
 
