@@ -1,4 +1,4 @@
-We aim to model a collection of agents making various claims and infer the accuracy of those claims as well as the reliability of those agents.
+We consider problems involving a collection of agents making various claims where we want to infer both the accuracy of those claims as well as the reliability of the agents.
 
 Each claim carries three parts:
  - an index, i (what the claim is about)
