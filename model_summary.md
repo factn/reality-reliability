@@ -66,10 +66,9 @@ We also wish to explore how resistant such a network would be to 'rogue' agents 
 
 **The waggle dance**
 
-- Agent model = bees are trustworthy
-- World model = flowers have pollen at specific locations
-- Measurement model = the waggle dance is used to communicate where the pollen is at
-- Validity = bees getting pollen
+- <img src="bee.png" width="60" /> Agent model = bees are trustworthy 
+- <img src="flower.png" width="60" /> World model = flowers have pollen at specific locations 
+- <img src="bee_measure.png" width="60" /> Measurement model = the waggle dance is used to communicate where the pollen is at 
 
 **Self grading test / crowd sourcing generally**
 
