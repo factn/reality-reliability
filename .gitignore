@@ -3,3 +3,4 @@ model.rds
 *.png
 index.html
 *.pdf
+data.rdata
