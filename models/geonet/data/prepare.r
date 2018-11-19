@@ -15,6 +15,8 @@ domain <- st_make_grid(bb, n=c(1, 1))
 
 #Select the felt reports that are in the domain
 wellington <- felt[st_within(felt, domain, sparse=FALSE), ]
+large_quakes <- data.table(wellington)[, .(.N), quake_public_id][N > 200]$quake_public_id
+wellington <- wellington[wellington$quake_public_id %in% large_quakes, ]
 
 
 #Make a hexagonal grid that is around 1 km in size
@@ -41,7 +43,14 @@ lambda <- eigen(d %*% s %*% d, only.values=T)$values
 W_sparse <- neighbours[neighbours[, 2] > neighbours[, 1], ]
 W_n <- nrow(W_sparse)
 
-save(wellington, hex, D_sparse, lambda, W_sparse, W_n, file='data.rdata')
+claims <- data.table(wellington)[, 
+    .(value=felt_mmi, 
+        count=felt_count, 
+        agent=as.numeric(factor(felt_agent_id)), 
+        index=hex_id, 
+        quake=as.numeric(factor(quake_public_id)))]
+
+save(wellington, claims, hex, D_sparse, lambda, W_sparse, W_n, file='data.rdata')
 
 
 
