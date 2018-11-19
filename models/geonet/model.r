@@ -1,30 +1,16 @@
 library(rstan)
+library(Matrix)
+library(brms)
 options(mc.cores = parallel::detectCores())
 
 load('data/data.rdata')
 
-
-data <- list(OBSERVATION=value,
-    AGENT=AGENT,
-    POINT=index,
-    QUAKE=quake,
-    COUNT=count,
-    D_SPARSE=D_sparse,
-    W_N = W_n,
-    W_SPARSE = W_sparse,
-    LAMBDA = lambda,
-    N_CLAIMS = nrow(claims),
-    N_AGENTS = max(claims$agent),
-    N_QUAKES = max(claims$quake),
-    N_POINTS = max(claims$index))
+W <- 1*as.matrix(sparseMatrix(i=c(W_sparse[, 1], W_sparse[, 2]), j=c(W_sparse[, 2], W_sparse[, 1])))
+row.names(W) <- seq(nrow(W))
+claims$value <- claims$value/10.0
 
 # Fit the model
-model <- stan('model.stan', 
-    model_name = "simple_test",
-    data = data,
-    chains = 4, 
-    iter = 2000
-)
+model <- brm(value ~ (1| agent), family='Beta', data=claims, autocor = cor_car(W, formula = ~ 1 | index))
 
 saveRDS(model, file='model.rds')
 

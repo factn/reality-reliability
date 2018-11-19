@@ -2,30 +2,24 @@ library(data.table)
 library(sf)
 library(Matrix)
 
+QUAKE <- '2018p816466'
+
 #Convert felt points to spatial objects, in NZTM
 felt <- st_transform(st_as_sf(fread('felt_reports.csv'),
 		coords=c("felt_lon", "felt_lat"), crs=4326), 2193)
 
-bb <- st_transform(
-	st_as_sf(data.frame(long=c(174.563, 174.997), lat= c(-41.394, -41.181)), 	coords=c("long", "lat"), 
-	crs=4326), 2193)
-
-domain <- st_make_grid(bb, n=c(1, 1))
-
-
-#Select the felt reports that are in the domain
-wellington <- felt[st_within(felt, domain, sparse=FALSE), ]
-large_quakes <- data.table(wellington)[, .(.N), quake_public_id][N > 200]$quake_public_id
-wellington <- wellington[wellington$quake_public_id %in% large_quakes, ]
-
+quake <- felt[felt$quake_public_id == QUAKE, ]
 
 #Make a hexagonal grid that is around 1 km in size
 hex <- st_sf(st_make_grid(
-		st_as_sfc(st_bbox(wellington)), 
-		cellsize=1000, square=FALSE))
+		st_as_sfc(st_bbox(quake)), 
+		cellsize=50000, square=FALSE))
+
 hex$hex_id <- seq(1, nrow(hex))
 
-wellington <- st_join(wellington, hex)
+quake <- st_join(quake, hex)
+quake <- quake[!(is.na(quake$hex_id)), ]
+
 
 # Now make the neighbourhood matrix and inputs for the CAR model
 neighbours <- do.call(rbind, lapply(seq(nrow(hex)), function(i){
@@ -43,14 +37,13 @@ lambda <- eigen(d %*% s %*% d, only.values=T)$values
 W_sparse <- neighbours[neighbours[, 2] > neighbours[, 1], ]
 W_n <- nrow(W_sparse)
 
-claims <- data.table(wellington)[, 
+claims <- data.table(quake)[, 
     .(value=felt_mmi, 
         count=felt_count, 
         agent=as.numeric(factor(felt_agent_id)), 
-        index=hex_id, 
-        quake=as.numeric(factor(quake_public_id)))]
+        index=hex_id)]
 
-save(wellington, claims, hex, D_sparse, lambda, W_sparse, W_n, file='data.rdata')
+save(quake, claims, hex, D_sparse, lambda, W_sparse, W_n, file='data.rdata')
 
 
 
