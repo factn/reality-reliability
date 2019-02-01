@@ -1,3 +1,4 @@
 set -ex
 make
-cp index.html publish/
+
+cp model.rds output/

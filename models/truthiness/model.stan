@@ -8,13 +8,12 @@ data {
 }
 
 parameters {
-    real<lower=1E-5> phi;
-    real<lower=1E-5> bias_agent[N_AGENTS];
-    real<lower=1E-5> sd_agent[N_AGENTS];
-    real<lower=1E-6, upper=0.99999> cosmic_agent[N_AGENTS];
+    real<lower=1E-6> phi;
+    real bias_agent[N_AGENTS];
+    real<lower=1E-6> sd_agent[N_AGENTS];
     real error_agent[N_RESPONSES];
     real mu_truthiness;
-    real<lower=1E-5> sd_truthiness;
+    real<lower=1E-6> sd_truthiness;
     real truthiness[N_STATEMENTS];
 }
 
@@ -44,27 +43,19 @@ model {
     for (a in 1:N_AGENTS){
         bias_agent[a] ~ normal(0, 1);
         sd_agent[a] ~ normal(0, 1);
-        cosmic_agent[a] ~ uniform(0, 1);
     }
-
-    /* Allow for  a mixture distribution, with some predictions being totally wrong */
-    for (r in 1:N_RESPONSES){
-        error_agent[r] ~ normal(bias_agent[AGENT[r]], sd_agent[AGENT[r]]);
-        target += log_mix(cosmic_agent[AGENT[r]],
-            beta_lpdf(RESPONSE[r] | alpha[r], beta[r]),
-            uniform_lpdf(RESPONSE[r] | 0, 1));
-    }
+    
+    error_agent ~ normal(bias_agent[AGENT], sd_agent[AGENT]);
+    RESPONSE ~ beta(alpha, beta);
 }
 
-/*
 generated quantities {
     real pp_response[N_RESPONSES]; 
     real ll_response[N_RESPONSES]; 
 
-    for (c in 1: N_RESPONSES){
-        pp_response[c] = beta_rng(alpha[c], beta[c]);
-        ll_response[c] = beta_lpdf(RESPONSE[c] | alpha[c], beta[c]);
+    for (r in 1: N_RESPONSES){
+        pp_response[r] = beta_rng(alpha[r], beta[r]);
+        ll_response[r] = beta_lpdf(RESPONSE[r] | alpha[r], beta[r]);
     }
 }
-*/
 

@@ -9,7 +9,7 @@ data$STATEMENT <- rep(NA, data$N_RESPONSES)
 for  (a in 1:data$N_AGENTS){
     data$STATEMENT[data$AGENT == a ] =  with(data, sample(1:N_STATEMENTS, sum(AGENT==a), replace=FALSE))
 }
-
+# Use stopifnot
 if (any(is.na(data$STATEMENT)) | any(duplicated(data.frame(data$STATEMENT, data$AGENT)))){
     stop('Expecting a single response about a statement from  an agent')
 }
@@ -18,7 +18,7 @@ if (length(unique(data$STATEMENT)) < data$N_STATEMENTS){
 }
 
 # Work out the error for each response
-data$agent_deviation = with(data, abs(rnorm(N_AGENTS, 0.3, 3)))
+data$agent_deviation = with(data, runif(N_AGENTS, 0.3, 3))
 data$agent_bias = with(data, rnorm(N_AGENTS, 0, 1))
 data$agent_error = with(data, rnorm(N_RESPONSES, agent_bias[AGENT], agent_deviation[AGENT]))
 
@@ -32,6 +32,7 @@ data$truthiness = with(data, rnorm(N_STATEMENTS, 0, 4))
 # Now put it all together to make a response
 ilogit =function(x){exp(x)/(1 + exp(x))}
 data$mu = with(data, ilogit(truthiness[STATEMENT] + agent_error[AGENT]))
+# Yvan says check the beta
 data$phi = 10
 data$alpha = with(data, mu * phi)
 data$beta = with(data, (1 - mu) * phi)
