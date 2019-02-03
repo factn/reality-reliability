@@ -8,7 +8,7 @@ data {
 }
 
 parameters {
-    real<lower=1E-6> phi[N_AGENTS];
+    real<lower=1E-6> agent_precision[N_AGENTS];
     real mu_truthiness;
     real<lower=1E-6> sd_truthiness;
     real z_truthiness[N_STATEMENTS];
@@ -21,8 +21,8 @@ transformed parameters {
 
     for (r in 1 : N_RESPONSES){
         mu[r] = inv_logit(mu_truthiness + z_truthiness[STATEMENT[r]] * sd_truthiness);
-        alpha[r] = mu[r] * phi[AGENT[r]];
-        beta[r] = (1 - mu[r]) * phi[AGENT[r]];
+        alpha[r] = mu[r] * agent_precision[AGENT[r]];
+        beta[r] = (1 - mu[r]) * agent_precision[AGENT[r]];
     }
 
 }
@@ -37,7 +37,7 @@ model {
     }
     
     for (a in 1:N_AGENTS){
-    	phi[a] ~ normal(0, 1);
+    	agent_precision[a] ~ normal(0, 1);
     }
     
     RESPONSE ~ beta(alpha, beta);

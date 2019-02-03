@@ -18,24 +18,21 @@ if (length(unique(data$STATEMENT)) < data$N_STATEMENTS){
 }
 
 # Work out the error for each response
-data$agent_deviation = with(data, runif(N_AGENTS, 0.1, 3))
-data$agent_bias = with(data, rnorm(N_AGENTS, 0, 0.1))
-data$agent_error = with(data, rnorm(N_RESPONSES, agent_bias[AGENT], agent_deviation[AGENT]))
+data$agent_precision = with(data, runif(N_AGENTS, 0.1, 10))
 
 # But include a cosmic ray effect, which allow for the agents response to be totally wrong
-data$agent_cosmic_ray = with(data, pmin(agent_deviation/12, 1))
-data$cosmic_ray <- with(data, rbinom(N_RESPONSES, 1, agent_cosmic_ray[AGENT]))
+data$agent_cosmic_ray = 0.05
+data$cosmic_ray <- with(data, rbinom(N_RESPONSES, 1, agent_cosmic_ray))
 
 # The truthiness is normally distributed
 data$truthiness = with(data, rnorm(N_STATEMENTS, 0, 4)) 
 
 # Now put it all together to make a response
 ilogit =function(x){exp(x)/(1 + exp(x))}
-data$mu = with(data, ilogit(truthiness[STATEMENT] + agent_error[AGENT]))
+data$mu = with(data, ilogit(truthiness[STATEMENT]))
 # Yvan says check the beta
-data$phi = 10
-data$alpha = with(data, mu * phi)
-data$beta = with(data, (1 - mu) * phi)
+data$alpha = with(data, mu * agent_precision[AGENT])
+data$beta = with(data, (1 - mu) * agent_precision[AGENT])
 data$RESPONSE = with(data, rbeta(N_RESPONSES, alpha, beta))
 data$RESPONSE[data$cosmic_ray == 1 ] <- with(data, sample(RESPONSE, sum(cosmic_ray), replace=TRUE))
 
