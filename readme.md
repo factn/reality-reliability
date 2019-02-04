@@ -22,7 +22,7 @@ We also aim to ascribe a property _*validity*_ to all claims, where <a href="htt
 
 <a href="http://mathurl.com/yc4cfkcg"><img src="http://mathurl.com/yc4cfkcg.png"></a>
 
-As we shall see, it is not always necessary to directly measure v in order to be able to usefully reason with it, as we can sometimes infer it's value from data.
+As we shall see, it is not always necessary to directly measure v in order to be able to usefully reason with it, as we can sometimes infer its value from data.
 
 
 ### World model, agent model, measurement model 
