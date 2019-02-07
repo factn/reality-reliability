@@ -46,10 +46,15 @@ model {
 generated quantities {
     real pp_response[N_RESPONSES]; 
     real ll_response[N_RESPONSES]; 
+    real truthiness[N_STATEMENTS];
 
     for (r in 1: N_RESPONSES){
         pp_response[r] = beta_rng(alpha[r], beta[r]);
         ll_response[r] = beta_lpdf(RESPONSE[r] | alpha[r], beta[r]);
+    }
+
+    for (s in 1: N_STATEMENTS){
+        truthiness[s] = inv_logit(mu_truthiness + z_truthiness[s] * sd_truthiness);
     }
 }
 
