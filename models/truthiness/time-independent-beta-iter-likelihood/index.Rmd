@@ -1,0 +1,47 @@
+---
+title: "Model output"
+output: pdf_document
+---
+
+
+```{r initialise, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo=FALSE, fig.align='center', warning=FALSE, message=FALSE)
+library(ggplot2)
+library(bayesplot)
+model <- readRDS('model.rds')
+data <- readRDS('data.rds')
+```
+
+The raw data, showing the set of observations recorded by each agent.
+There are `r data$N_POINTS` points, with observations being made by
+`r data$N_AGENTS` agents, with a total of `r data$N_CLAIMS` claims.
+```{r data, out.height="450pt", out.width="850pt"}
+ ggplot(as.data.frame(data[c('POINT', 'OBSERVATION', 'AGENT')]), 
+    aes(x=POINT, y=OBSERVATION, colour=factor(AGENT))) + 
+    geom_point() + 
+    facet_wrap(~AGENT, ncol=5)
+```
+
+Comparison between the posterior distribution of the agent bias, and the 
+agent bias that was used to generate the data (red)
+```{r agents, out.height="450pt", out.width="450pt"}
+mcmc_intervals(as.matrix(model), regex_pars=c('^agent.*')) + 
+    geom_point(data=data.frame(i=seq(data$N_AGENTS, 1), 
+        x=data$agent), 
+        color='red', 
+        alpha=0.5, 
+        size=4, 
+        aes(x=x, y=i))
+
+```
+
+Comparison between the posterior distribution of the value at each point, and 
+the value of the point that was used to generate the data (red)
+```{r points, out.height="450pt", out.width="450pt"}
+mcmc_intervals(as.matrix(model), regex_pars=c('^point.*')) + 
+    geom_point(data=data.frame(i=seq(data$N_POINTS, 1), x=data$point), 
+        color='red', 
+        alpha=0.5, 
+        size=4, 
+        aes(x=x, y=i))
+```
