@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+/* <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet"> */
+
+
+/* @import url("https://fonts.googleapis.com/css?family=Maven+Pro|Open+Sans"); */
+/* @import url("https://fonts.googleapis.com/css?family=Pontano+Sans|Open+Sans"); *\/ */
+html {
+  font-family: 'Source Sans Pro', sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+td, p, body {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+body {
+    background: #fff;
+}
+
+.title {
+    color: #00546b;
+}
+
+h1 {
+    color: #701836;
+}
+
+h2 {
+    color: #95445A;
+}
+
+h3 {
+    color: #CB798C;
+}
+
+h1,h2,h3,h4,h5,h6,legend{
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* .bg { */
+/*     background-image: url("bg.png"); */
+/*     height: 100%; */
+/*     background-position: center; */
+/*     background-repeat: no-repeat; */
+/*     background-size: cover; */
+/* } */
+
+#main .nav-pills > li.active > a,
+#main .nav-pills > li.active > a:hover,
+#main .nav-pills > li.active > a:focus {
+   background-color: #2171B5;
+}
+
+#table-of-contents {
+    background: linear-gradient(to bottom, #000000 0%,#00546b 100%)
+    /* background-color: #00546b; */
+    /* background-image: url("bg.png"); */
+}
+
+#postamble {
+   background-color: #00546b;
+   background: #00546b url(Wings.png) right no-repeat;
+   background-size: 70px 70px;
+   border-top: none;
+}
+
+
+/* #table-of-contents:after { */
+/*     content: ''; */
+/*     display: block; */
+/*     height: 40px;  /\*height of icon *\/ */
+/*     width: 40px;  /\*width of icon *\/ */
+/*     position: absolute; */
+/*     /\*where to replace the icon *\/ */
+/*     top: 0px; */
+/*     left: -40px; */
+/*     /\*background *\/ */
+/*     background: #F8E6AE url(Wings.png) no-repeat 0px 0px; */
+/* } */
+
+#table-of-contents ul.nav > li > a {
+    color: #FFFFEE !important;
+    background-color: #000000 !important;
+    /* background-color: #00546b !important; */
+}
+
+#table-of-contents ul.nav > li.active > a {
+    color: #FFFFAA !important;
+    background-color: #111111 !important;
+    /* background-color: #2d4f71 !important; */
+    /* border-bottom-color: #2d4f71 !important; */
+    /* font-weight: 700; */
+    border-bottom-width: 0px;
+    border-top-width: 0px;
+    font-weight: normal !important;
+}
+
+#table-of-contents a {
+    color: #FFFFEE;
+}
+
+#table-of-contents ul.nav > li > a:hover,
+#table-of-contents ul.nav > li.active > a:hover,
+#table-of-contents ul.nav > li.active > ul > li > a:hover,
+#table-of-contents ul.nav > li.active > ul > li.active > a:hover,
+#table-of-contents ul.nav > li.active > ul > li.active > ul > li > a:hover,
+#table-of-contents ul.nav > li.active > ul > li.active > ul > li.active > a:hover {
+    background-color: #003442 !important;
+    /* color: #FFFFFF !important; */
+}
+
+
+#table-of-contents ul.nav > li.active > ul > li.active > a {
+    /* background-color: #2664ab !important; */
+    color: #FFFFAA !important;
+    /* color: #FFFFFF !important; */
+    /* border-bottom-color: #2664ab !important; */
+    font-weight: normal !important;
+    /* border-bottom-color: #2664ab !important; */
+    
+}
+
+#table-of-contents ul.nav > li.active > ul > li.active > ul > li > a {
+    /* background-color: #2b73c5 !important; */
+    /* border-bottom-color: #2b73c5 !important; */
+    /* border-bottom-color: #2b73c5 !important; */
+    color: #FFFFFF !important;
+    font-weight: normal !important;
+}
+
+#table-of-contents ul.nav > li.active > ul > li.active > ul > li.active > a {
+    /* background-color: #367fd3 !important; */
+    /* border-bottom-color: #367fd3 !important; */
+    /* border-bottom-color: #367fd3 !important; */
+    color: #FFFFAA !important;
+    /* color: #FFFFFF !important; */
+    font-weight: normal !important;
+}
+
+#table-of-contents ul.nav > li.active > ul > li > a {
+    color: #FFFFFF !important;
+    font-weight: normal !important;
+}
+
+#table-of-contents a:hover {
+    background-color: #04203F !important;
+}
+
+#table-of-contents ul.nav > li.active > ul > li > a {
+    background-color: #111111 !important;
+    /* background-color: #000000 !important; */
+    /* background-color: #00546b !important; */
+    border-right: 3px solid #f00 !important;
+}
+#table-of-contents ul.nav > li.active > ul > li.active > a {
+    background-color: #111111 !important;
+    /* background-color: #00546b !important; */
+    border-right: 3px solid #f00 !important;
+}
+
+#table-of-contents ul.nav > li.active > ul > li.active > ul > li > a {
+    background-color: #111111 !important;
+    border-right: 3px solid #f00 !important;
+}
+#table-of-contents ul.nav > li.active > ul > li.active > ul > li.active > a {
+    background-color: #111111 !important;
+    border-right: 3px solid #f00 !important;
+}
+
+#table-of-contents ul.nav li.active > a {
+    border-bottom: none !important;
+    border-right: 3px solid #f00 !important;
+}
+
+
+#table-of-contents li {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.nav > li.active {
+   background-color: #2171B5;
+}
+
+#main .nav-pills > li > a:hover {
+  background-color: #2171B5;
+}
+
+
+#nav-top span.glyphicon {
+  color: #000000;
+}
+
+#table-of-contents header{
+    color: #000000;
+}
+
+#table-of-contents h2 {
+    background-color: #00546b;
+    border-bottom: none !important;
+    margin-bottom: 0px !important;
+}
+
+#content {
+    max-width: 1200px;
+}
+
+.center-small {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+.center-large {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+/* #main a { */
+/*     background-image: linear-gradient(180deg,#d64a70,#d64a70); */
+/*     color:#c7254e; */
+/* } */
+
+a,
+a:visited,
+a:hover{
+    color:#AAAAAA
+}

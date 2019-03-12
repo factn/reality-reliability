@@ -1,6 +1,12 @@
 data.rds
 model.rds
 *.png
-index.html
 *.pdf
 data.rdata
+*.rds
+*.rdata
+cache
+diag.txt
+generated
+spin.spin.R
+*.html

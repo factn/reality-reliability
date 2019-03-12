@@ -41,6 +41,6 @@ data$RESPONSE[data$RESPONSE < 1E-6] <- 1E-6
 data$RESPONSE[data$RESPONSE >  1.0 - 1E-6] <- 1.0 - 1E-6
 
 # Save the results
-saveRDS(data, file='data.rds')
+saveRDS(data, file='generated/data.rds')
 
 
