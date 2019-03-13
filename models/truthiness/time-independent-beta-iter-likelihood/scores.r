@@ -7,7 +7,7 @@ likelihoods <- allresults[vartype %in% c('ll_next_response', 'll_response')]
 rm(allresults); gc()
 
 source('../functions.r')
-load('generated/data.rdata')
+load('generated/data.rdata', v=T)
 
 options(warn = 1)
 
@@ -67,6 +67,14 @@ process <- function(dt, by, grp) {
 
 scores <- truthiness[!(iter %in% c('0000','final')), process(.SD, .BY, .GRP), iter]
 
+real_truth <- data.table(st_or_ag = seq_len(data$N_STATEMENTS), value=data$statements_truthiness)
+real_prec  <- data.table(st_or_ag = seq_len(data$N_AGENTS),     value=data$agents_precision)
+
+scores[simdata, `:=`(statement = i.statement, agent = i.agent), on = 'iter']
+
+scores[real_truth, real_truthiness := i.value, on = c('statement' = 'st_or_ag')]
+scores[real_prec, real_precision := i.value, on = c('agent' = 'st_or_ag')]
+
 
 ## * Get likelihoods
 
@@ -80,6 +88,14 @@ likelihoods <- merge(ll_new, ll_end,
 
 likelihoods[, ll_diff := ll_end - ll_new]
 
+likelihoods[simdata, `:=`(statement = i.statement, agent = i.agent, answer = i.answer), on = c('ll_iter' = 'iter')]
+
+likelihoods[real_truth, real_truthiness := i.value, on = c('statement' = 'st_or_ag')]
+likelihoods[real_prec, real_precision := i.value, on = c('agent' = 'st_or_ag')]
+
 
 save(scores, likelihoods, file='generated/all-scores.rdata')
 
+
+fwrite(scores, 'generated/scores-for-miles.csv')
+fwrite(likelihoods, 'generated/likelihoods-for-miles.csv')

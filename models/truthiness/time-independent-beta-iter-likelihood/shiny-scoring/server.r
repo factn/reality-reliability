@@ -47,12 +47,12 @@ theme2 <- function() {
         legend.justification = c(0, 1))
 }
 
-input <- list(iter       = 100)
+input <- list(iter       = 117)
 
 ## * SERVER
 shinyServer(function(input, output, session) {
 
-    output$iter <- renderUI(sliderInput("iter", label = "Response", min = 1, max = max(models$iter_n),
+    output$iter <- renderUI(sliderInput("iter", label = "Response", min = 1, max = max(models$iter_n)-1,
                                         value = 5))
 
     observeEvent(input$nextbutt, {
@@ -129,6 +129,7 @@ shinyServer(function(input, output, session) {
         req(ans)
 
         req(input$iter)
+
         score <- scores[iter == sprintf('%0.4i', input$iter)]
 
         st  <- ans$statement
@@ -242,10 +243,6 @@ shinyServer(function(input, output, session) {
 
     })
 
-    get_score <- reactive({
-        req(input$iter)
-        scores[iter == sprintf('%0.4i', input$iter)]
-    })
     
     ## * Score triangle
     output$plot_triangle <- renderPlot({
@@ -327,5 +324,9 @@ shinyServer(function(input, output, session) {
         sprintf('<div style="text-align: center;">Innovation: %0.4f<br>Miss: %0.4f<br>Shift: %0.4f</div>',
                 dat$innovation, dat$miss, dat$shift)
     })
-    
+
+    output$answers_tab <- reactive({
+        w <- simdata[, which(iter == sprintf('%0.4i', input$iter))]
+        simdata[(w-3):(w+3), .(statement, agent, answer)]
+    })
 })

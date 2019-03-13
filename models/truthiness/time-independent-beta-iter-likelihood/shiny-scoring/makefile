@@ -5,10 +5,10 @@ all:
 .PHONY: data run local
 
 run:
-	 Rscript -e "shiny::runApp('.', port=5410, host = '$(HOST)')"
+	 Rscript -e "shiny::runApp('.', port=3078, host = '$(HOST)')"
 
 local:
-	 Rscript -e "shiny::runApp('.', port=5401, host = '127.0.0.1')"
+	 Rscript -e "shiny::runApp('.', port=3078, host = '127.0.0.1')"
 
 data: data/.data
 data/.data: data.r
