@@ -2,7 +2,7 @@ IMAGE := docker.dragonfly.co.nz/dragonverse-18.04
 # RUN ?= docker run -it --rm --net=host --user=$$(id -u):$$(id -g) -e RUN= -v$$(pwd)/../../..:/work -w /work/models/truthiness/time-independent-beta $(IMAGE)
 RUN=
 
-all: generated/truthiness-precision-all-models.rds
+all: generated/truthiness-precision-all-models.rds generated/all-scores.rdata
 
 
 MODELS_I := $(shell seq -w 0 1 326) 
@@ -29,6 +29,10 @@ generated/.alldone: $(MODELS) generated/.finalmod
 
 generated/truthiness-precision-all-models.rds: generated/.alldone posteriors.r
 	Rscript posteriors.r
+
+generated/all-scores.rdata: generated/truthiness-precision-all-models.rds \
+		scores.r
+	Rscript scores.r
 
 # generated/model-results.rdata: generated/.alldone \
 # 		model-results.r

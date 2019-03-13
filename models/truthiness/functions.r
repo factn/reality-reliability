@@ -38,3 +38,13 @@ cat_as_num <- function(cat, brks=seq(0, 1, length.out=6)) {
 
 
 
+progressbar <-  function (n, length = 50) {
+    if (length > n) 
+        length = n
+    cat(sprintf("|%s|\n", paste(rep("-", length - 2), collapse = "")))
+    s <- 1:n
+    sp <- s/n * length
+    target <- 1:length
+    ids <- sapply(target, function(x) which.min(abs(sp - x)))
+    return(ids)
+}

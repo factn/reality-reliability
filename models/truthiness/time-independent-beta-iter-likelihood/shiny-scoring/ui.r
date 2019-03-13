@@ -46,13 +46,13 @@ function(request) {
                                  tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"))
                                  , uiOutput('iter')
                                  , fluidRow(column(4, actionButton('prevbutt', '<', width='100%')),
-                                            column(4, h5('Answer')),
+                                            column(4, h5('Response')),
                                             column(4, actionButton('nextbutt', '>', width='100%')))
                                  , fluidRow(column(4, actionButton('prevbutts', '<<', width='100%')),
                                             column(4, h5('Statement')),
                                             column(4, actionButton('nextbutts', '>>', width='100%')))
                                  , fluidRow(column(4, actionButton('prevbutta', '<-', width='100%')),
-                                            column(4, h5('Agent answer')),
+                                            column(4, h5('Agent response')),
                                             column(4, actionButton('nextbutta', '->', width='100%')))
                                    )
         
@@ -62,17 +62,16 @@ function(request) {
                            , br()
                            , fluidRow(
                                  column(7
-                                      , h3('Effect of answer')
+                                      , h3('Effect of response')
                                       , plotOutput('plot_dist', height='600px')
+                                      , h5('Red line: agent\'s response; white dotted line: "real" value')
                                         ),
                                  column(5
-                                      , h4(htmlOutput('score_txt2'))
+                                      , plotOutput('ll_plots', height = '300px')
                                       , br()
+                                      ## , h4(htmlOutput('score_txt2'))
                                       ## , h3(htmlOutput('score_txt'))
                                         ## , br()
-                                      , br()
-                                      , plotOutput('ll_plots')
-                                      , hr()
                                       , plotOutput('plot_triangle')
                                         )
                              )

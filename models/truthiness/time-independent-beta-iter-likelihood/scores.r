@@ -2,89 +2,84 @@ library(data.table)
 library(transport)
 
 allresults <- readRDS('generated/truthiness-precision-all-models.rds')
-allresults <- allresults[vartype == 'truthiness']
-
-## suppressPackageStartupMessages({
-##     library(rstan)
-##     rstan_options(auto_write = TRUE)
-##     options(mc.cores = parallel::detectCores())
-##     library(RPushbullet)
-##     library(transport)
-## })
-
-## key <- "o.2XMTZ9q2TWvHEb9fdhHU1ps39CNxFaEE"
-## devices <- c("ujxarO332aWsjz7O3P0Jl6", "ujxarO332aWsjAiVsKnSTs")
+truthiness  <- allresults[vartype == 'truthiness']
+likelihoods <- allresults[vartype %in% c('ll_next_response', 'll_response')]
+rm(allresults); gc()
 
 source('../functions.r')
+load('generated/data.rdata')
 
 options(warn = 1)
 
-setkey(allresults, iter, st_or_ag)
+setkey(truthiness, iter, st_or_ag)
+setkey(likelihoods, ll_iter)
 
 ## * Last model (best estimate of everything)
 
-lastmod <- allresults[iter == max(iter)]
+lasttruth <- truthiness[iter == max(iter)]
+load(sprintf('generated/model_%s.rdata', lasttruth[1, iter])) # to get full simdata
 
-load(sprintf('generated/model_%s.rdata', lastmod[1, iter]))
-simdata[, iter := sprintf('%0.4i', seq_len(.N))]
-simdata[, iter_n := seq_len(.N)]
-simdata[, iter := sprintf('%0.4i', iter_n)]
-simdata[, st_ans_no := rowid(statement)]
-simdata[, st_ans_ag_no := rowid(statement, agent)]
+iters <- unique(truthiness$iter)
+
+## * Assign prior to first statement to get previous value
+truthiness[iter == '0000', st_or_ag := 1]
 
 
-## * Prior model
+## * Previous value
+prev_truthiness <- copy(truthiness)
+prev_truthiness[, next_iter := iters[match(iter, iters)+1]]
 
-priormod <- allresults[iter == '0000']
-t_prior <- priormod[, value]
+truthiness[prev_truthiness[!is.na(next_iter)],
+           value_prev := i.value,
+           on = c('iter' = 'next_iter', 'st_or_ag', "sample", "ch", "ch_sample")]
 
-scores <- list()
+## * Final value
+truthiness[lasttruth, value_last := i.value, on = c('st_or_ag', 'sample', 'ch', 'ch_sample')]
 
-iters <- unique(allresults$iter)
-iters <- setdiff(iters, '0000')
+
+## * Calculate scores
 pids <- progressbar(length(iters), 100)
-prev <- priormod
 
-i=100
-## for (i in 1:10) {
-for (i in seq_along(iters)) {
-    if (i %in% pids) cat('*')
+by='0103'; grp=2; dt=truthiness[iter == by]
+process <- function(dt, by, grp) {
+    if (grp %in% pids) cat('*')
 
-    it <- iters[i]
-    ans <- simdata[iter == it]
+    ans <- simdata[iter == by]
+    st <- ans[, statement]
 
-    ## * Posteriors
+    st_dat <- dt[st_or_ag == st]
     
-    ## ** Previous posterior
-    if (ans$st_ans_no != 1) {
-        p_truth <- prev[st_or_ag == ans$statement, value]
-    } else p_truth <- t_prior
+    ## ans <- simdata[iter == by]
+    p_truth <- st_dat[, value_prev]
+    c_truth <- st_dat[, value]
+    f_truth <- st_dat[, value_last]
     
-    ## ** Current posterior
-    curr <- allresults[iter == iters[i]]
-    c_truth <- curr[st_or_ag == ans$statement, value]
-
-    ## ** Final
-    f_truth <- lastmod[st_or_ag == ans$statement, value]
-
-
-    ## * the 3 sides of the triangle
-
     innovation <- wasserstein1d(p_truth, ans$answer)
-    foresight  <- wasserstein1d(f_truth, ans$answer)
+    miss  <- wasserstein1d(f_truth, ans$answer)
     shift      <- wasserstein1d(p_truth, f_truth)
 
-    if (((innovation + foresight) >= shift) & ((foresight + shift) >= innovation) & ((shift + innovation) >= foresight)) {
-        score <- (innovation^2 + shift^2 - foresight^2) / (2 * shift)
+    if (((innovation + miss) >= shift) & ((miss + shift) >= innovation) & ((shift + innovation) >= miss)) {
+        score <- (innovation^2 + shift^2 - miss^2) / (2 * shift)
     } else score <- NA_real_
 
-    scores[[i]] <- cbind(ans, data.table(innovation, foresight, shift, score))
-
-    prev <- curr
+    data.table(innovation, miss, shift, score)
 }
 
-scores <- rbindlist(scores)
+scores <- truthiness[!(iter %in% c('0000','final')), process(.SD, .BY, .GRP), iter]
 
 
-saveRDS(scores, 'generated/all-scores.rds')
+## * Get likelihoods
+
+ll_new <- likelihoods[vartype == 'll_next_response', .(ll_iter, sample, ch, ch_sample, ll_new=value)]
+ll_end <- likelihoods[vartype == 'll_response',      .(ll_iter, sample, ch, ch_sample, ll_end=value)]
+
+likelihoods <- merge(ll_new, ll_end,
+                     by.x = c('ll_iter', 'sample', 'ch', 'ch_sample'),
+                     by.y = c('ll_iter', 'sample', 'ch', 'ch_sample'),
+                     all=F)
+
+likelihoods[, ll_diff := ll_end - ll_new]
+
+
+save(scores, likelihoods, file='generated/all-scores.rdata')
 

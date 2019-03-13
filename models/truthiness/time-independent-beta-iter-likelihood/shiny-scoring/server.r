@@ -4,6 +4,7 @@ library(shinyjs)
 library(data.table)
 library(shinydashboard)
 library(ggplot2)
+library(grid)
 library(gridExtra)
 library(cowplot)
 library(rstan)
@@ -18,7 +19,7 @@ options(warn = 1)
 
 load('data/data.rdata', v=F)
 
-mytheme <- function() {
+theme1 <- function() {
     theme(plot.background=element_rect(fill='#283639', colour = NA),
           panel.background=element_rect(fill='#283639', colour = NA),
           panel.grid.major=element_line(colour = '#313E41FF'),
@@ -28,12 +29,30 @@ mytheme <- function() {
           plot.title = element_text(colour = 'grey90'))
 }
 
+theme2 <- function() {
+    theme(
+        plot.background=element_rect(fill='#283639', colour = NA),
+        panel.background=element_rect(fill='#283639', colour = NA),
+        plot.title = element_text(colour = 'grey90', hjust=0),
+        axis.text.x = element_text(colour = 'grey90'),
+        axis.text.y = element_blank(),
+        axis.ticks.x = element_line(colour = 'grey90'),
+        axis.ticks.y = element_blank(),
+        axis.line.x.bottom = element_blank(),
+        axis.line.y.left= element_blank(),
+        axis.title.x = element_text(colour = 'grey90'),
+        axis.title.y = element_blank(),
+        legend.text=element_text(colour = 'grey90'),
+        legend.position = c(0, 1),
+        legend.justification = c(0, 1))
+}
+
 input <- list(iter       = 100)
 
 ## * SERVER
 shinyServer(function(input, output, session) {
 
-    output$iter <- renderUI(sliderInput("iter", label = "Answer", min = 1, max = max(models$iter_n),
+    output$iter <- renderUI(sliderInput("iter", label = "Response", min = 1, max = max(models$iter_n),
                                         value = 5))
 
     observeEvent(input$nextbutt, {
@@ -76,8 +95,8 @@ shinyServer(function(input, output, session) {
     output$answer_txt <- renderText({
         req(answer())
         ans <- answer()
-        return(ans[1, sprintf('Agent %i responded that statement %i was %0.1f%% true at time %0.2f<br>Response #%i for this statement, but #%i for this agent and statement',
-                      agent, statement, 100 * answer, time, st_ans_no, st_ans_ag_no)])
+        return(ans[1, sprintf('Agent %i responded that statement %i was %0.1f%% true.<br>%s response for this statement, but %s for this agent and statement.',
+                              agent, statement, 100 * answer, ordinal_suffix(st_ans_no), ordinal_suffix(st_ans_ag_no))])
     })
     
     prev_res <- reactive({
@@ -108,6 +127,10 @@ shinyServer(function(input, output, session) {
 
         ans <- answer()
         req(ans)
+
+        req(input$iter)
+        score <- scores[iter == sprintf('%0.4i', input$iter)]
+
         st  <- ans$statement
         ag  <- ans$agent
         
@@ -129,13 +152,11 @@ shinyServer(function(input, output, session) {
         if (!nrow(f_truth)) f_truth <- truth_prior
         if (!nrow(f_prec)) f_prec <- prec_prior
 
-        innovation <- wasserstein1d(p_truth[, value], ans$answer)
-        miss <- wasserstein1d(f_truth[, value], ans$answer)
-        shift <- wasserstein1d(p_truth[, value], f_truth[, value])
-
-        if (((innovation + miss) >= shift) & ((miss + shift) >= innovation) & ((shift + innovation) >= miss)) {
-            score <- (innovation^2 + shift^2 - miss^2) / (2 * shift)
-        } else score <- NA_real_
+        
+        innovation <- score$innovation
+        miss       <- score$miss
+        shift      <- score$shift
+        score      <- score$score
 
         ll <- likelihoods[ll_iter == ans$iter]
 
@@ -152,7 +173,7 @@ shinyServer(function(input, output, session) {
     output$plot_dist <- renderPlot({
 
         dat <- three_versions()
-        
+
         col_t <- '#4DAF4A'
         col_p <- '#377EB8'
 
@@ -168,15 +189,15 @@ shinyServer(function(input, output, session) {
                 geom_density(aes(y = ..scaled..), fill=col_t, colour=NA, alpha=0.9) +
                 geom_vline(xintercept = t_real, colour = 'white', linetype = 3) +
                 geom_vline(xintercept = dat$ans$answer, colour='red') +
-                scale_x_continuous(limits = lim_t) + theme_minimal() + mytheme() +
+                scale_x_continuous(limits = lim_t) + theme_minimal() + theme1() +
                 labs(x = NULL, y = NULL, title = paste0(type, ' truthiness'))
-                
+            
         }
         plot_prec <- function(d, type) {
             ggplot(d, aes(x = value)) +
                 geom_density(aes(y = ..scaled..), fill=col_p, colour=NA, alpha=0.9) +
                 geom_vline(xintercept = p_real, colour = 'white', linetype = 3) +
-                scale_x_continuous(limits = lim_p) + theme_minimal() + mytheme() +
+                scale_x_continuous(limits = lim_p) + theme_minimal() + theme1() +
                 labs(x = NULL, y = NULL, title = paste0(type, ' precision'))
         }
         pt <- plot_truth(dat$p_truth, 'Previous')
@@ -198,27 +219,44 @@ shinyServer(function(input, output, session) {
         req(dat)
 
         ll <- dat$likelihood
-        ll <- rbind(ll[, .(type = 'At response time', value = ll_curr)],
-                    ll[, .(type = 'Final', value = ll_final)])
+        ll_long <- rbind(ll[, .(type = 'At response time', value = ll_new)],
+                         ll[, .(type = 'Final', value = ll_end)])
+        cols <- c('At response time' = "#984EA3", 'Final' = "#FF7F00")
+        g <- ggplot(ll_long, aes(x = value, fill = type)) +
+            geom_density(alpha=0.7, colour = NA) + #'white', size = 0.1) + 
+            scale_fill_manual(name = NULL, values = cols) +
+            scale_y_continuous(expand = c(0,0)) +
+            labs(x = 'Log-likelihood', y = 'Density', title = 'Likelihoods') +
+            theme2()                                         
 
-        g <- ggplot(ll, aes(x = value, fill = type)) +
-            geom_density(alpha=0.5) + mytheme() +
-            scale_fill_discrete(name = NULL) +
-            labs(x = 'Log-likelihood', y = 'Density')
-
-        return(g)
+        gt <- grobTree(textGrob(sprintf('Mean = %0.1f', mean(ll$ll_diff)), x = unit(0.9, 'npc'), y = unit(0.9, 'npc'),
+                                hjust = 1, vjust = 1, gp = gpar(col='grey90')))
+        g2 <- ggplot(ll, aes(x = ll_diff)) +
+            geom_density(alpha=0.8, fill = "#FFFF33", colour = 'grey90', size = 0.1) +
+            scale_y_continuous(expand = c(0,0)) +
+            annotation_custom(gt) +
+            labs(x = 'Log-likelihood difference', y = NULL) +
+            theme2()
+        
+        plot_grid(g, g2)
 
     })
-       
+
+    get_score <- reactive({
+        req(input$iter)
+        scores[iter == sprintf('%0.4i', input$iter)]
+    })
+    
     ## * Score triangle
     output$plot_triangle <- renderPlot({
 
-        dat <- three_versions()
-        req(dat)
+        req(input$iter)
+        
+        score <- scores[iter == sprintf('%0.4i', input$iter)]
 
-        Iv <- dat$innovation
-        Fs <- dat$miss
-        Sf <- dat$shift
+        Iv <- score$innovation
+        Fs <- score$miss
+        Sf <- score$shift
         
         if (!(((Iv + Fs) >= Sf) & ((Fs + Sf) >= Iv) & ((Sf + Iv) >= Fs))) {
             warning('Impossible triangle')
@@ -258,26 +296,25 @@ shinyServer(function(input, output, session) {
         
         g <- ggplot() +
             geom_polygon(aes(x = x, y = y), data = sides, fill='grey50', colour='grey90') +
-            geom_segment(x = dat$score, xend = dat$score, y = 0, yend = FI[2], colour='red') +
-            geom_vline(xintercept = dat$score, colour='red') +
+            geom_segment(x = score$score, xend = score$score, y = 0, yend = FI[2], colour='red') +
+            geom_vline(xintercept = score$score, colour='red') +
             coord_equal(clip = 'off') +
             labs(x = NULL, y = NULL, title = 'Score triangle') +
             geom_label(data = labs, aes(x = x, y = y, label = lab), hjust=labs$hadj, vjust=labs$vadj,
                        colour = 'white', fill = 'grey10', size=5, lineheight=0.9) +
-            ## annotate(geom='label', x = dat$score, y = 0, label = sprintf('Score\n%0.4f', dat$score),
-            ##          hjust=0.5, vjust = 1, colour = 'white', fill = 'red', size = 5) +
             theme(plot.background=element_rect(fill='#283639', colour = NA),
                   panel.background=element_rect(fill='#283639', colour = NA),
                   plot.title = element_text(colour = 'grey90'),
                   axis.line.x.bottom=element_line(colour = 'grey40'),
                   axis.line.y.left=element_line(colour = 'grey40'),
                   axis.text=element_text(colour = 'grey40'),
-                  axis.ticks=element_line(colour = 'grey40')
+                  axis.ticks=element_line(colour = 'grey40'),
+                  title=element_text(hjust=0)
                   )
         return(g)
         
     }, bg='#283639')
-        
+    
     ## output$score_txt <- reactive({
     ##     req(three_versions())
     ##     dat <- three_versions()

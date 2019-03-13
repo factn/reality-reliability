@@ -12,7 +12,7 @@ source('../functions.r')
 models <- dir('generated', 'model_[0-9].*\\.rdata', full.names = T)
 
 ## * All models but final
-i=1
+i=3
 pids <- progressbar(length(models), 100)
 allresults <- rbindlist(lapply(seq_along(models), function(i) {
 
@@ -109,5 +109,5 @@ allresults <- rbind(allresults, both, fill=T)
 
 
 
-saveRDS(allresults, 'generated/truthiness-precision-all-models.rds')
+saveRDS(allresults, 'generated/truthiness-precision-all-models.rds', compress=F)
 
