@@ -329,4 +329,10 @@ shinyServer(function(input, output, session) {
         w <- simdata[, which(iter == sprintf('%0.4i', input$iter))]
         simdata[(w-3):(w+3), .(statement, agent, answer)]
     })
+
+    ## output$keepAlive <- renderText({
+    ##   req(input$count)
+    ##   paste("keep alive ", input$count)
+    ## })
+    
 })

@@ -10,6 +10,9 @@ run:
 local:
 	 Rscript -e "shiny::runApp('.', port=3078, host = '127.0.0.1')"
 
+ngrok:
+	/home/yvan/ngrok http 3078
+
 data: data/.data
 data/.data: data.r
 	Rscript data.r  && \
